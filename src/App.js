@@ -4,7 +4,7 @@ import { structure_list } from './mock';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import Structure from './components/Structure';
 
-import './App.css';
+import './App.scss';
 import 'devextreme/dist/css/dx.light.css';
 import "./icons/style.scss"
 
