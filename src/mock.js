@@ -26,7 +26,7 @@ export const structure_list = [
     {
         id: 5,
         name: "Swaniawski, Fritsch and Breitenberg",
-        parent_id: null,
+        parent_id: 6,
         status: true
     },
     {

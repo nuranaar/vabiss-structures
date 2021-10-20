@@ -31,12 +31,6 @@ const Structure = () => {
     sort: "name",
   };
 
-  const onEditorPreparing = (e) => {
-    if (e.dataField === "id" && e.row.data.ID === 1) {
-      e.cancel = true;
-    }
-    // console.log("onEditorPreparing", e);
-  };
   const equalNamesValidator = (e) => {
     const res = store._array
       .filter((item) => item.id !== editId)
@@ -44,19 +38,36 @@ const Structure = () => {
     return res.every((r) => r === false);
   };
 
+  const onRemove = (e) => {
+    store.remove(e.key);
+    store._array
+      .filter((item) => item.parent_id === e.key)
+      .map((item) => store.remove(item.id));
+  };
+
+  const onSave = (e) => {
+    let changes = e.changes[0];
+    console.log(changes);
+    if (changes.type === "update") {
+      store.update(changes.key, changes.data)
+    } else if (changes.type === "incert") {
+      store.insert(changes.data)
+    }
+  };
+
   return (
     <div className="table-section">
       <TreeList
-        id="employees"
+        id="structure"
         dataSource={list}
         showRowLines={true}
         showBorders={true}
-        columnAutoWidth={true}
         autoExpandAll={true}
         keyExpr="id"
         parentIdExpr="parent_id"
-        onEditorPreparing={onEditorPreparing}
         onEditingStart={(e) => setEditId(e.data.id)}
+        onSaved={onSave}
+        onRowRemoving={onRemove}
       >
         <Editing
           allowUpdating={true}
