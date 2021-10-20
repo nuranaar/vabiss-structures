@@ -17,7 +17,6 @@ import {
   PatternRule,
   CustomRule,
 } from "devextreme-react/tree-list";
-import { Validator } from "devextreme-react";
 
 const Structure = () => {
   const [list, setList] = useState(store._array);
@@ -63,6 +62,7 @@ const Structure = () => {
           allowUpdating={true}
           allowDeleting={true}
           allowAdding={true}
+          useIcons={true}
           mode="row"
         />
 
@@ -82,17 +82,17 @@ const Structure = () => {
 
         {/* Name column  */}
         <Column dataField="name" defaultSortOrder="asc">
-            <StringLengthRule
-              min={3}
-              max={30}
-              message="Min length: 3, Max length: 30"
-            />
-            <PatternRule pattern="^[a-zA-Z]" message="Do not use digits." />
-            <RequiredRule />
-            <CustomRule
-              validationCallback={equalNamesValidator}
-              message="This name allready exist."
-            />
+          <StringLengthRule
+            min={3}
+            max={30}
+            message="Min length: 3, Max length: 30"
+          />
+          <PatternRule pattern="^[a-zA-Z]" message="Do not use digits." />
+          <RequiredRule />
+          <CustomRule
+            validationCallback={equalNamesValidator}
+            message="This name already exist."
+          />
         </Column>
 
         {/* Parent Id column  */}
@@ -109,8 +109,10 @@ const Structure = () => {
 
         {/* Buttons column  */}
         <Column type="buttons">
-          <Button name="edit"></Button>
-          <Button name="delete"></Button>
+          <Button name="edit" cssClass="icon-pencil"></Button>
+          <Button cssClass="icon-bin2" name="delete"></Button>
+          <Button cssClass="icon-checkbox-checked" name="save"></Button>
+          <Button cssClass="icon-cross" name="cancel"></Button>
         </Column>
       </TreeList>
     </div>

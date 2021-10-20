@@ -25,7 +25,6 @@
 }
 
 .icon-pencil {
-  pointer-events: none;
   &:before {
     content: "\e905";
     color: #b2b2b2;
@@ -39,7 +38,6 @@
 }
 
 .icon-bin {
-  pointer-events: none;
   &:before {
     content: "\e9ac";
     color: #b2b2b2;
@@ -51,9 +49,20 @@
     color: #c0392b;
   }
 }
+.icon-bin2 {
+  &:before {
+    content: "\e9ad";
+    color: #b2b2b2;
+    transition: all 0.3s;
+    font-size: 16px;
+    padding: 0 8px;
+  }
+  &:hover:before {
+    color: #c0392b;
+  }
+}
 
 .icon-cross {
-  pointer-events: none;
   &:before {
     content: "\ea0f";
     color: #b2b2b2;
@@ -67,10 +76,9 @@
 }
 
 .icon-checkbox-checked {
-  pointer-events: none;
   &:before {
     content: "\ea52";
-    color: #806a6a;
+    color: #b2b2b2;
     transition: all 0.3s;
     font-size: 16px;
     padding: 0 8px;
