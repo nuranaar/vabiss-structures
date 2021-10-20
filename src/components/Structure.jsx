@@ -13,10 +13,15 @@ import {
   Sorting,
   Scrolling,
   HeaderFilter,
+  StringLengthRule,
+  PatternRule,
+  CustomRule,
 } from "devextreme-react/tree-list";
+import { Validator } from "devextreme-react";
 
 const Structure = () => {
   const [list, setList] = useState(store._array);
+  const [editId, setEditId] = useState();
 
   useEffect(() => {
     setList(store._array);
@@ -27,14 +32,18 @@ const Structure = () => {
     sort: "name",
   };
 
-  //   const onEditorPreparing = (e) => {
-  //     if (e.dataField === "id" && e.row.data.ID === 1) {
-  //       e.cancel = true;
-  //     }
-  //   };
-  //   const onSaving = (e) => {
-  //     console.log(e.changes);
-  //   };
+  const onEditorPreparing = (e) => {
+    if (e.dataField === "id" && e.row.data.ID === 1) {
+      e.cancel = true;
+    }
+    // console.log("onEditorPreparing", e);
+  };
+  const equalNamesValidator = (e) => {
+    const res = store._array
+      .filter((item) => item.id !== editId)
+      .map((item) => item.name === e.value);
+    return res.every((r) => r === false);
+  };
 
   return (
     <div className="table-section">
@@ -47,9 +56,8 @@ const Structure = () => {
         autoExpandAll={true}
         keyExpr="id"
         parentIdExpr="parent_id"
-        // onEditingStart={(e) => console.log("onEditingStart", e)}
-        // onEditorPreparing={onEditorPreparing}
-        // onSaving={onSaving}
+        onEditorPreparing={onEditorPreparing}
+        onEditingStart={(e) => setEditId(e.data.id)}
       >
         <Editing
           allowUpdating={true}
@@ -74,7 +82,17 @@ const Structure = () => {
 
         {/* Name column  */}
         <Column dataField="name" defaultSortOrder="asc">
-          <RequiredRule />
+            <StringLengthRule
+              min={3}
+              max={30}
+              message="Min length: 3, Max length: 30"
+            />
+            <PatternRule pattern="^[a-zA-Z]" message="Do not use digits." />
+            <RequiredRule />
+            <CustomRule
+              validationCallback={equalNamesValidator}
+              message="This name allready exist."
+            />
         </Column>
 
         {/* Parent Id column  */}
