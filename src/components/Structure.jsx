@@ -32,27 +32,27 @@ const Structure = () => {
   };
 
   const equalNamesValidator = (e) => {
-    const res = store._array
+    const res = list
       .filter((item) => item.id !== editId)
       .map((item) => item.name === e.value);
     return res.every((r) => r === false);
   };
 
-  const onRemove = (e) => {
+  const onRemoveItem = (e) => {
     store.remove(e.key);
-    store._array
+    list
       .filter((item) => item.parent_id === e.key)
       .map((item) => store.remove(item.id));
   };
 
-  const onSave = (e) => {
-    let changes = e.changes[0];
-    console.log(changes);
-    if (changes.type === "update") {
-      store.update(changes.key, changes.data)
-    } else if (changes.type === "incert") {
-      store.insert(changes.data)
-    }
+  const onInsertItem = (e) => {
+    store.insert(e.data).done(function (dataItem, key) {
+      console.log(key, dataItem);
+    });
+  };
+
+  const onUpdateItem = (e) => {
+    store.update(e.key, e.newData);
   };
 
   return (
@@ -66,8 +66,9 @@ const Structure = () => {
         keyExpr="id"
         parentIdExpr="parent_id"
         onEditingStart={(e) => setEditId(e.data.id)}
-        onSaved={onSave}
-        onRowRemoving={onRemove}
+        onRowRemoving={onRemoveItem}
+        onRowUpdating={onUpdateItem}
+        onRowInserting={onInsertItem}
       >
         <Editing
           allowUpdating={true}
