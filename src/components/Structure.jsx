@@ -29,13 +29,6 @@ const Structure = () => {
   const [editId, setEditId] = useState();
   const [status, setStatus] = useState(false);
 
-  useEffect(() => {
-    setList(store._array);
-    return () => {
-      store.clear();
-    };
-  }, []);
-
   const parentDataSource = {
     store: list.filter((item) => !item.parent_id),
     sort: "name",

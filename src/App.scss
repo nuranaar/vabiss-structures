@@ -1,16 +1,18 @@
 .App {
   text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-bottom: 1px solid #eee;
+  .App-header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 18px;
+    color: white;
+    .link {
+      color: #282c34;
+      text-decoration: none;
+      margin: 12px 18px;
+    }
+  }
 }
 
 .table-section {
