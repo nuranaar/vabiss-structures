@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TreeList,
   Editing,
@@ -19,13 +19,11 @@ import {
 import { Template } from "devextreme-react/core/template";
 import StatusSwitch from "./StatusSwitch";
 
-
 import nextId from "react-id-generator";
 import { store } from "../App";
 
-
 const Structure = () => {
-  const [list, setList] = useState(store._array);
+  const [list] = useState(store._array);
   const [editId, setEditId] = useState();
   const [status, setStatus] = useState(false);
 
@@ -41,11 +39,11 @@ const Structure = () => {
     return res.every((r) => r === false);
   };
 
-  const onRemoveItem = (e) => {
-    store.remove(e.key);
+  const removeStructure = (id) => {
+    store.remove(id);
     list
-      .filter((item) => item.parent_id === e.key)
-      .map((item) => store.remove(item.id));
+      .filter((item) => item.parent_id === id)
+      .map((item) => removeStructure(item.id));
   };
 
   const onInsertItem = (e) => {
@@ -67,7 +65,8 @@ const Structure = () => {
         keyExpr="id"
         parentIdExpr="parent_id"
         onEditingStart={(e) => setEditId(e.data.id)}
-        onRowRemoving={onRemoveItem}
+        onOptionChanged={(e) => console.log(e)}
+        onRowRemoving={(e) => removeStructure(e.key)}
         onRowUpdating={onUpdateItem}
         onRowInserting={onInsertItem}
       >

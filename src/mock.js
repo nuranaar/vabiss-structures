@@ -8,18 +8,18 @@ export const structure_list = [
     {
         id: 2,
         name: "Langworth, Reichert and Schinner",
-        parent_id: null,
+        parent_id: 3,
         status: false
     },
     {
         id: 3,
         name: "Balistreri, Homenick and Murray",
-        parent_id: null,
+        parent_id: 4,
         status: false
     },
     {
         id: 4,
-        name: "Jacobs, Dicki and Braun",
+        name: "AJacobs, Dicki and Braun",
         parent_id: null,
         status: true
     },
