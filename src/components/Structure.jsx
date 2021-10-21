@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { store } from "../App";
 import {
   TreeList,
   Editing,
@@ -17,13 +16,24 @@ import {
   PatternRule,
   CustomRule,
 } from "devextreme-react/tree-list";
+import { Template } from "devextreme-react/core/template";
+import StatusSwitch from "./StatusSwitch";
+
+
+import nextId from "react-id-generator";
+import { store } from "../App";
+
 
 const Structure = () => {
   const [list, setList] = useState(store._array);
   const [editId, setEditId] = useState();
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
     setList(store._array);
+    return () => {
+      store.clear();
+    };
   }, []);
 
   const parentDataSource = {
@@ -46,9 +56,7 @@ const Structure = () => {
   };
 
   const onInsertItem = (e) => {
-    store.insert(e.data).done(function (dataItem, key) {
-      console.log(key, dataItem);
-    });
+    store.insert({ ...e.data, status: status, id: nextId(`${list.length}`) });
   };
 
   const onUpdateItem = (e) => {
@@ -85,7 +93,9 @@ const Structure = () => {
         <Sorting mode="multiple" />
 
         <Scrolling mode="standard" />
+
         <Paging enabled={true} defaultPageSize={10} />
+
         <Pager
           showPageSizeSelector={true}
           allowedPageSizes={[5, 10]}
@@ -117,7 +127,18 @@ const Structure = () => {
         </Column>
 
         {/* Status column  */}
-        <Column dataField="status" caption="Status"></Column>
+        <Column
+          dataField="status"
+          caption="Status"
+          cellTemplate="statusSwith"
+          editCellRender={(e) => (
+            <StatusSwitch options={e} store={store} status={setStatus} />
+          )}
+        ></Column>
+        <Template
+          render={(e) => <StatusSwitch options={e} store={store} />}
+          name="statusSwith"
+        />
 
         {/* Buttons column  */}
         <Column type="buttons">

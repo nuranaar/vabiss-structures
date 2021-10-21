@@ -13,6 +13,13 @@
   color: white;
 }
 
-.table-section{
-  margin:32px 16px
+.table-section {
+  margin: 32px 16px;
+}
+
+.dx-treelist-toolbar-button {
+  border-color: #2ecc71 !important;
+  .dx-button-content i {
+    color: #2ecc71 !important;
+  }
 }
